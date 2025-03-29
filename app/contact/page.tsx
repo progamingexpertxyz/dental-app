@@ -41,7 +41,7 @@ export default function ContactUs() {
             <div className="text-center">
               <Button
                 className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-lg"
-                onClick={() => router.push("/book-appointment")}
+                onClick={() => router.push("/appointment")}
               >
                 Book an Appointment
               </Button>
