@@ -51,9 +51,11 @@ export default function Navbar() {
           <NavLink href="/treatment" onClick={() => setIsOpen(false)}>Treatments</NavLink>
           <NavLink href="/services" onClick={() => setIsOpen(false)}>Services</NavLink>
           <NavLink href="/contact" onClick={() => setIsOpen(false)}>Contact</NavLink>
-          <Button className="bg-[#0F172A] text-white hover:bg-[#1E293B] transition rounded-full px-6">
-            Book Now
-          </Button>
+          <Link href="/appointment">
+        <Button className="hidden md:block bg-blue-400 text-white hover:bg-green-600 transition rounded-full px-6">
+          Book Now
+        </Button>
+        </Link>
         </div>
       )}
     </div>
