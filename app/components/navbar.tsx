@@ -48,10 +48,9 @@ export default function Navbar() {
             <X size={32} />
           </button>
           <NavLink href="/" onClick={() => setIsOpen(false)}>Home</NavLink>
-          <NavLink href="#treatments" onClick={() => setIsOpen(false)}>Treatments</NavLink>
-          <NavLink href="#services" onClick={() => setIsOpen(false)}>Services</NavLink>
-          <NavLink href="#about" onClick={() => setIsOpen(false)}>About Us</NavLink>
-          <NavLink href="#contact" onClick={() => setIsOpen(false)}>Contact</NavLink>
+          <NavLink href="/treatment" onClick={() => setIsOpen(false)}>Treatments</NavLink>
+          <NavLink href="/services" onClick={() => setIsOpen(false)}>Services</NavLink>
+          <NavLink href="/contact" onClick={() => setIsOpen(false)}>Contact</NavLink>
           <Button className="bg-[#0F172A] text-white hover:bg-[#1E293B] transition rounded-full px-6">
             Book Now
           </Button>
