@@ -10,8 +10,8 @@ export default function Navbar() {
 
   return (
     <div className="fixed w-full top-4 left-1/2 transform -translate-x-1/2 z-50">
-      {/* Navbar Container - Rounded */}
-      <nav className="container mx-auto bg-gradient-to-r from-blue-100 to-white shadow-lg rounded-full px-6 py-3 flex justify-between items-center max-w-5xl">
+      {/* Navbar Container */}
+      <nav className="w-[90%] mx-auto bg-gradient-to-r from-blue-100 to-white shadow-lg rounded-full px-6 py-3 flex justify-between items-center max-w-5xl">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-1">
           <span className="text-2xl font-bold">
@@ -30,9 +30,9 @@ export default function Navbar() {
 
         {/* Appointment Button */}
         <Link href="/appointment">
-        <Button className="hidden md:block bg-blue-400 text-white hover:bg-green-600 transition rounded-full px-6">
-          Book Now
-        </Button>
+          <Button className="hidden md:block bg-blue-400 text-white hover:bg-green-600 transition rounded-full px-6">
+            Book Now
+          </Button>
         </Link>
 
         {/* Mobile Menu Button */}
@@ -41,9 +41,9 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Full-Screen Mobile Menu */}
+      {/* Mobile Menu */}
       {isOpen && (
-        <div className="h-screen inset-0 bg-white flex flex-col items-center justify-center gap-6 text-2xl shadow-lg rounded-lg">
+        <div className="fixed top-0 left-0 w-full h-screen bg-white flex flex-col items-center justify-center gap-6 text-2xl shadow-lg">
           <button className="absolute top-6 right-6 text-[#0F172A]" onClick={() => setIsOpen(false)}>
             <X size={32} />
           </button>
@@ -52,10 +52,10 @@ export default function Navbar() {
           <NavLink href="/services" onClick={() => setIsOpen(false)}>Services</NavLink>
           <NavLink href="/contact" onClick={() => setIsOpen(false)}>Contact</NavLink>
           <Link href="/appointment">
-        <Button className="hidden md:block bg-blue-400 text-white hover:bg-green-600 transition rounded-full px-6">
-          Book Now
-        </Button>
-        </Link>
+            <Button className="bg-blue-400 text-white hover:bg-green-600 transition rounded-full px-6">
+              Book Now
+            </Button>
+          </Link>
         </div>
       )}
     </div>

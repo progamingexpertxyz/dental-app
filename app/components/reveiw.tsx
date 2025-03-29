@@ -38,7 +38,7 @@ export default function Testimonials() {
           viewport={{ once: true }}
         >
           <h2 className="text-cyan-400 text-lg font-semibold">OUR REVIEWS</h2>
-          <h3 className="text-3xl font-bold">What People Say About Us</h3>
+          <h3 className="text-3xl font-bold text-black">What People Say About Us</h3>
         </motion.div>
 
         {/* Responsive Grid with Scroll Animation */}
@@ -65,15 +65,15 @@ export default function Testimonials() {
                     className="w-14 h-14 rounded-full border-2 border-cyan-400"
                   />
                   <div>
-                    <h4 className="font-bold">{testimonial.name}</h4>
-                    <div className="flex text-yellow-400">
+                    <h4 className="font-bold text-black">{testimonial.name}</h4>
+                    <div className="flex text-yellow-500">
                       {Array.from({ length: testimonial.rating }).map((_, i) => (
                         <FaStar key={i} />
                       ))}
                     </div>
                   </div>
                 </div>
-                <p className="text-gray-600 italic">"{testimonial.text}"</p>
+                <p className="text-gray-700 italic">"{testimonial.text}"</p>
               </Card>
             </motion.div>
           ))}
