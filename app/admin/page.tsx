@@ -107,7 +107,7 @@ export default function Dashboard() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse border border-gray-300 hidden md:table">
               <thead>
-                <tr className="bg-gray-900 text-gray-900">
+                <tr className="bg-gray-200 text-gray-900">
                   <th className="border p-3 ">Name</th>
                   <th className="border p-3">Email</th>
                   <th className="border p-3">Date</th>
