@@ -4,20 +4,32 @@ import Appointment from "@/app/models/appointment";
 
 export async function POST(req: Request) {
   await connectDB(); // ✅ Connect to MongoDB
-  console.log("✅ MongoDB Connected, Processing Request..."); // Debugging
+  console.log("✅ MongoDB Connected, Processing Request...");
 
   try {
     const body = await req.json();
-    console.log("📥 Received Data:", body); // Debugging
+    console.log("📥 Received Data:", body);
 
-    const { name, number, age, email, date, time, service, specificInput, specificMessage, gender, address } = body;
+    const { name, number, age, email, doctor, service, otherService, specificMessage, gender, address } = body;
 
-    if (!name || !number || !age || !email || !date || !time || !service || !gender || !address) {
+    if (!name || !number || !age || !email || !service || !gender || !address || !doctor) {
       console.error("❌ Missing Fields");
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
     }
 
-    const newAppointment = new Appointment({ name, number, age, email, date, time, service, specificInput, specificMessage, gender, address });
+    const newAppointment = new Appointment({
+      name,
+      number,
+      age,
+      email,
+      doctor,
+      service,
+      otherService,
+      specificMessage,
+      gender,
+      address,
+    });
+
     await newAppointment.save();
     console.log("✅ Appointment Saved!");
 
