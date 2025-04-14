@@ -2,8 +2,16 @@ import { NextResponse } from "next/server";
 import connectDB from "@/app/lib/db";
 import Appointment from "@/app/models/appointment";
 
+export async function OPTIONS() {
+  const res = NextResponse.json({}, { status: 200 });
+  res.headers.set("Access-Control-Allow-Origin", "*");
+  res.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.headers.set("Access-Control-Allow-Headers", "Content-Type");
+  return res;
+}
+
 export async function POST(req: Request) {
-  await connectDB(); // ✅ Connect to MongoDB
+  await connectDB();
   console.log("✅ MongoDB Connected, Processing Request...");
 
   try {
@@ -33,9 +41,15 @@ export async function POST(req: Request) {
     await newAppointment.save();
     console.log("✅ Appointment Saved!");
 
-    return NextResponse.json({ message: "Appointment booked successfully!" }, { status: 201 });
+    const response = NextResponse.json({ message: "Appointment booked successfully!" }, { status: 201 });
+    response.headers.set("Access-Control-Allow-Origin", "*");
+    return response;
+
   } catch (error) {
     console.error("❌ Error booking appointment:", error);
-    return NextResponse.json({ error: "Failed to book appointment" }, { status: 500 });
+    const res = NextResponse.json({ error: "Failed to book appointment" }, { status: 500 });
+    res.headers.set("Access-Control-Allow-Origin", "*");
+    return res;
   }
 }
+
