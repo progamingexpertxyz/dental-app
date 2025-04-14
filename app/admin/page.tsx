@@ -13,9 +13,16 @@ export default function Dashboard() {
     id: string;
     name: string;
     email: string;
+    number: string;
+    age: string;
+    gender: string;
+    address: string;
     date: string;
     time: string;
     service: string;
+    otherService?: string;
+    specificMessage?: string;
+    doctor: string;
   }
 
   const { data: session, status } = useSession();
@@ -64,14 +71,13 @@ export default function Dashboard() {
 
   const handleView = (appointment: Appointment) => {
     alert(
-      `Appointment Details:\nName: ${appointment.name}\nEmail: ${appointment.email}\nDate: ${appointment.date}\nTime: ${appointment.time}\nService: ${appointment.service}`
+      `Appointment Details:\nName: ${appointment.name}\nEmail: ${appointment.email}\nPhone: ${appointment.number}\nAge: ${appointment.age}\nGender: ${appointment.gender}\nDoctor: ${appointment.doctor}\nService: ${appointment.service}\nOther Service: ${appointment.otherService || "N/A"}\nDate: ${appointment.date}\nTime: ${appointment.time}\nAddress: ${appointment.address}\nMessage: ${appointment.specificMessage || "N/A"}`
     );
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-100 p-6">
-      <div className="w-full max-w-5xl bg-white shadow-xl rounded-lg p-6">
-        {/* User Info */}
+      <div className="w-full max-w-7xl bg-white shadow-xl rounded-lg p-6">
         <div className="flex flex-col md:flex-row justify-between items-center mb-6 border-b pb-4">
           <div className="flex items-center gap-4">
             {session.user?.image && (
@@ -98,7 +104,6 @@ export default function Dashboard() {
           </Button>
         </div>
 
-        {/* Appointments */}
         {loading ? (
           <p className="text-center text-gray-600">Loading appointments...</p>
         ) : appointments.length === 0 ? (
@@ -108,8 +113,13 @@ export default function Dashboard() {
             <table className="w-full text-left border-collapse border border-gray-300 hidden md:table">
               <thead>
                 <tr className="bg-gray-200 text-gray-900">
-                  <th className="border p-3 ">Name</th>
+                  <th className="border p-3">Name</th>
                   <th className="border p-3">Email</th>
+                  <th className="border p-3">Phone</th>
+                  <th className="border p-3">Age</th>
+                  <th className="border p-3">Gender</th>
+                  <th className="border p-3">Doctor</th>
+                  <th className="border p-3">Address</th>
                   <th className="border p-3">Date</th>
                   <th className="border p-3">Time</th>
                   <th className="border p-3">Service</th>
@@ -121,6 +131,11 @@ export default function Dashboard() {
                   <tr key={appointment.id || index} className="hover:bg-gray-100 text-black">
                     <td className="border p-3">{appointment.name}</td>
                     <td className="border p-3">{appointment.email}</td>
+                    <td className="border p-3">{appointment.number}</td>
+                    <td className="border p-3">{appointment.age}</td>
+                    <td className="border p-3">{appointment.gender}</td>
+                    <td className="border p-3">{appointment.doctor}</td>
+                    <td className="border p-3">{appointment.address}</td>
                     <td className="border p-3">{appointment.date}</td>
                     <td className="border p-3">{appointment.time}</td>
                     <td className="border p-3">{appointment.service}</td>
@@ -145,7 +160,7 @@ export default function Dashboard() {
               </tbody>
             </table>
 
-            {/* Mobile View - Cards */}
+            {/* Mobile Cards */}
             <div className="md:hidden flex flex-col gap-4">
               {appointments.map((appointment, index) => (
                 <div
@@ -154,15 +169,20 @@ export default function Dashboard() {
                 >
                   <p className="font-semibold">{appointment.name}</p>
                   <p className="text-sm text-gray-600">{appointment.email}</p>
-                  <p className="text-sm">
-                    <span className="font-semibold">Date:</span> {appointment.date}
-                  </p>
-                  <p className="text-sm">
-                    <span className="font-semibold">Time:</span> {appointment.time}
-                  </p>
-                  <p className="text-sm">
-                    <span className="font-semibold">Service:</span> {appointment.service}
-                  </p>
+                  <p className="text-sm"><span className="font-semibold">Phone:</span> {appointment.number}</p>
+                  <p className="text-sm"><span className="font-semibold">Age:</span> {appointment.age}</p>
+                  <p className="text-sm"><span className="font-semibold">Gender:</span> {appointment.gender}</p>
+                  <p className="text-sm"><span className="font-semibold">Doctor:</span> {appointment.doctor}</p>
+                  <p className="text-sm"><span className="font-semibold">Address:</span> {appointment.address}</p>
+                  <p className="text-sm"><span className="font-semibold">Date:</span> {appointment.date}</p>
+                  <p className="text-sm"><span className="font-semibold">Time:</span> {appointment.time}</p>
+                  <p className="text-sm"><span className="font-semibold">Service:</span> {appointment.service}</p>
+                  {appointment.otherService && (
+                    <p className="text-sm"><span className="font-semibold">Other:</span> {appointment.otherService}</p>
+                  )}
+                  {appointment.specificMessage && (
+                    <p className="text-sm"><span className="font-semibold">Message:</span> {appointment.specificMessage}</p>
+                  )}
                   <div className="flex justify-end gap-3 mt-3">
                     <Button
                       onClick={() => handleView(appointment)}
@@ -188,4 +208,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
