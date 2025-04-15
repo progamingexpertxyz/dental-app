@@ -1,12 +1,11 @@
-// next.config.js (or next.config.mjs if you're using ESM)
-
+// next.config.js
 const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development' // Disable SW in dev mode
+  disable: process.env.NODE_ENV === 'development',
 });
 
 module.exports = withPWA({
-  reactStrictMode: true
+  reactStrictMode: true,
 });
