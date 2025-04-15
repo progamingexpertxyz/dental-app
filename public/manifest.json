@@ -3,11 +3,12 @@
     "short_name": "DentalApp",
     "description": "A convenient app for managing dental appointments and clinic services.",
     "start_url": "/",
-    "scope": "/",
     "display": "standalone",
-    "orientation": "portrait",
     "background_color": "#ffffff",
     "theme_color": "#0ea5e9",
+    "orientation": "portrait",
+    "scope": "/",
+    "lang": "en",
     "icons": [{
             "src": "/icons/icon-192x192.png",
             "sizes": "192x192",
@@ -18,6 +19,5 @@
             "sizes": "512x512",
             "type": "image/png"
         }
-    ],
-    "lang": "en"
+    ]
 }
