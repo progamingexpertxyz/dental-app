@@ -63,7 +63,7 @@ export default function Home() {
       </motion.section>
 
       {/* Newsletter Section */}
-      <section className="text-black bg-white py-16 px-4 md:px-0 rounded-xl max-w-4xl mx-auto">
+      <section className="text-black bg-white py-16 px-4 md:px-0  max-w-4xl mx-auto">
         <div className="text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-6 text-black">Subscribe to our Newsletter</h2>
           <div className="flex flex-col sm:flex-row items-center justify-center max-w-md mx-auto gap-2">
