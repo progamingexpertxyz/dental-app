@@ -1,23 +1,17 @@
 {
     "name": "Dental Clinic App",
     "short_name": "DentalApp",
-    "description": "A convenient app for managing dental appointments and clinic services.",
     "start_url": "/",
-    "display": "standalone",
-    "background_color": "#ffffff",
+    "description": "A convenient app for managing dental appointments and clinic services.",
     "theme_color": "#0ea5e9",
-    "icons": [{
-            "src": "/icons/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/icons/icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ],
-    "orientation": "portrait",
+    "display": "standalone",
     "scope": "/",
+    "shortcuts": [{
+        "name": "Dental App",
+        "short_name": "Dental App",
+        "url": "https://dental-app-phi.vercel.app/"
+    }],
+    "background_color": "#ffffff",
+    "orientation": "portrait",
     "lang": "en"
 }
