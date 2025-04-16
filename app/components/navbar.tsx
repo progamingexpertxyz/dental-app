@@ -26,6 +26,7 @@ export default function Navbar() {
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
       e.preventDefault();
+      console.log('Before install prompt fired');
       setDeferredPrompt(e);
     };
 
