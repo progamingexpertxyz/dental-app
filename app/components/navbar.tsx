@@ -37,6 +37,7 @@ export default function Navbar() {
   }, []);
 
   const handleInstallClick = () => {
+    console.log("Install button clicked");  
     if (deferredPrompt) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult: { outcome: string; }) => {
