@@ -31,7 +31,7 @@ export default function Hero() {
 
             <Link href="/appointment">
               <Button className="bg-cyan-600 hover:bg-cyan-700 text-white text-lg py-3 px-6 rounded-full w-full sm:w-auto">
-                Book Your Appointment Online
+              Online Appointment 
               </Button>
             </Link>
 
