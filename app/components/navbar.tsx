@@ -1,11 +1,12 @@
 'use client'
-import { useState, useEffect, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 
-// Define BeforeInstallPromptEvent type
+// Define the BeforeInstallPromptEvent interface
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => void;
   userChoice: Promise<{ outcome: string }>;
 }
+
 import { Button } from "@/app/components/ui/button";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
@@ -15,33 +16,34 @@ export default function Navbar() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Detect mobile device
   useEffect(() => {
     if (typeof window !== "undefined") {
       setIsMobile(/Mobi|Android/i.test(window.navigator.userAgent));
     }
   }, []);
 
-  // Listen for install prompt
+  // Listen for install prompt and cast event to BeforeInstallPromptEvent
   useEffect(() => {
-    const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
-      e.preventDefault();
-      console.log('Before install prompt fired');
-      setDeferredPrompt(e);
+    const handleBeforeInstallPrompt = (e: Event) => {
+      const promptEvent = e as BeforeInstallPromptEvent; // Typecast event here
+      promptEvent.preventDefault();
+      console.log("Before install prompt fired");
+      setDeferredPrompt(promptEvent);
     };
 
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt as EventListener);
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt as EventListener);
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     };
   }, []);
 
   const handleInstallClick = () => {
-    console.log("Install button clicked");  
+    console.log("Install button clicked");
     if (deferredPrompt) {
       deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult: { outcome: string; }) => {
+      deferredPrompt.userChoice.then((choiceResult) => {
+        console.log(`User choice outcome: ${choiceResult.outcome}`);
         if (choiceResult.outcome === "accepted") {
           console.log("User accepted the install prompt");
         } else {
@@ -72,19 +74,18 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-4">
-  <Link href="/appointment">
-    <Button className="bg-[#00D1D1] text-white hover:bg-black transition rounded-full px-6 py-2 text-base min-w-[40px] text-center">
-      Book Now
-    </Button>
-  </Link>
-  <Button
-    className="bg-black text-white hover:bg-[#00D1D1] transition rounded-full px-6 py-2 text-base min-w-[50px] text-center"
-    onClick={handleInstallClick}
-  >
-    {isMobile ? "Install App" : "Web App"}
-  </Button>
-</div>
-
+          <Link href="/appointment">
+            <Button className="bg-[#00D1D1] text-white hover:bg-black transition rounded-full px-6 py-2 text-base min-w-[40px] text-center">
+              Book Now
+            </Button>
+          </Link>
+          <Button
+            className="bg-[#0F172A] text-white hover:bg-[#00D1D1] transition rounded-full px-6 py-2 text-base min-w-[50px] text-center"
+            onClick={handleInstallClick}
+          >
+            {isMobile ? "Install App" : "Web App"}
+          </Button>
+        </div>
 
         <button className="md:hidden text-[#0F172A]" onClick={() => setIsOpen(true)}>
           <Menu size={28} />
@@ -101,12 +102,12 @@ export default function Navbar() {
           <NavLink href="/services" onClick={() => setIsOpen(false)}>Services</NavLink>
           <NavLink href="/contact" onClick={() => setIsOpen(false)}>Contact</NavLink>
           <Link href="/appointment">
-            <Button className="bg-blue-400 text-white hover:bg-green-600 transition rounded-full px-6">
+            <Button className="bg-[#00D1D1] text-white hover:bg-[#0F172A] transition rounded-full px-6">
               Book Now
             </Button>
           </Link>
           <Button
-            className="bg-green-400 text-white hover:bg-blue-600 transition rounded-full px-6"
+            className="bg-[#0F172A] text-white hover:bg-[#00D1D1] transition rounded-full px-6"
             onClick={handleInstallClick}
           >
             {isMobile ? "Install App" : "Install Web"}
