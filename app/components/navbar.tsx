@@ -50,7 +50,7 @@ export default function Navbar() {
         setDeferredPrompt(null);
       });
     } else {
-      alert("Installation not supported on this browser or already installed.");
+      alert("You have already installed the app !");
     }
   };
 
