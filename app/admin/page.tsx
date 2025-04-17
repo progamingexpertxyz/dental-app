@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Trash2, Eye, LogOut } from "lucide-react";
+import { Trash2, LogOut } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
@@ -10,11 +10,10 @@ import Image from "next/image";
 
 export default function Dashboard() {
   interface Appointment {
-    id: string;
+    _id: string; // ✅ Fixed here
     name: string;
     email: string;
-    phone: string;
-    service: string;
+    number: string;
     status: string;
     age: string;
     gender: string;
@@ -22,6 +21,7 @@ export default function Dashboard() {
     treatment: string;
     address: string;
     message: string;
+    createdAt?: string;
   }
 
   const { data: session, status } = useSession();
@@ -62,16 +62,37 @@ export default function Dashboard() {
   const handleDelete = async (id: string) => {
     try {
       await axios.delete(`/api/appointments/${id}`);
-      setAppointments(appointments.filter((appt) => appt.id !== id));
+      setAppointments(appointments.filter((appt) => appt._id !== id)); // ✅ Fixed here
     } catch (error) {
       console.error("Error deleting appointment:", error);
     }
   };
 
-  const handleView = (appointment: Appointment) => {
-    alert(
-      `Appointment Details:\nName: ${appointment.name}\nEmail: ${appointment.email}\nPhone: ${appointment.phone}\nAge: ${appointment.age}\nGender: ${appointment.gender}\nDoctor: ${appointment.doctor}\nTreatment: ${appointment.treatment}\nAddress: ${appointment.address}\nMessage: ${appointment.message}\nService: ${appointment.service}\nStatus: ${appointment.status}`
-    );
+  const getStatusColor = (status: string | undefined) => {
+    if (!status) return 'bg-gray-100 text-gray-800';
+
+    switch (status.toLowerCase()) {
+      case 'confirmed':
+        return 'bg-green-100 text-green-800';
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'cancelled':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const formatDate = (dateString: string | undefined) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   return (
@@ -104,43 +125,73 @@ export default function Dashboard() {
         </div>
 
         {loading ? (
-          <p className="text-center text-gray-600">Loading appointments...</p>
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
         ) : !appointments || appointments.length === 0 ? (
-          <p className="text-center text-gray-600">No appointments found.</p>
+          <div className="text-center py-12 bg-gray-50 rounded-lg">
+            <p className="text-xl text-gray-600">No appointments found.</p>
+            <p className="text-gray-500 mt-2">New appointments will appear here.</p>
+          </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {appointments.map((appointment, index) => (
               <div
-                key={appointment.id || index}
+                key={appointment._id || index} // ✅ Fixed here
                 className="border p-6 rounded-lg bg-white shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
-                <div className="mb-4">
-                  <h3 className="text-xl font-semibold text-gray-800">{appointment.name}</h3>
-                  <p className="text-gray-600 text-sm">{appointment.email}</p>
-                  <p className="text-gray-600 text-sm">{appointment.phone}</p>
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-800">
+                      {appointment.name}
+                    </h3>
+                    <p className="text-gray-600">{appointment.email}</p>
+                    <p className="text-gray-600">{appointment.number}</p>
+                  </div>
+                  <span className={`px-3 py-1 rounded-full text-sm ${getStatusColor(appointment.status)}`}>
+                    {appointment.status || 'Unknown'}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <p className="text-sm text-gray-600">
+                      <span className="font-semibold">Age:</span> {appointment.age}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      <span className="font-semibold">Gender:</span> {appointment.gender}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">
+                      <span className="font-semibold">Doctor:</span> {appointment.doctor}
+                    </p>
+                  </div>
                 </div>
 
                 <div className="space-y-2">
-                  <p className="text-sm text-gray-600"><span className="font-semibold">Age:</span> {appointment.age}</p>
-                  <p className="text-sm text-gray-600"><span className="font-semibold">Gender:</span> {appointment.gender}</p>
-                  <p className="text-sm text-gray-600"><span className="font-semibold">Doctor:</span> {appointment.doctor}</p>
-                  <p className="text-sm text-gray-600"><span className="font-semibold">Treatment:</span> {appointment.treatment}</p>
-                  <p className="text-sm text-gray-600"><span className="font-semibold">Service:</span> {appointment.service}</p>
-                  <p className="text-sm text-gray-600"><span className="font-semibold">Status:</span> {appointment.status}</p>
+                  <p className="text-sm text-gray-600">
+                    <span className="font-semibold">Treatment:</span> {appointment.treatment}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    <span className="font-semibold">Address:</span> {appointment.address}
+                  </p>
+                  {appointment.message && (
+                    <p className="text-sm text-gray-600">
+                      <span className="font-semibold">Message:</span> {appointment.message}
+                    </p>
+                  )}
+                  <p className="text-sm text-gray-600">
+                    <span className="font-semibold">Appointment Date:</span>{" "}
+                    {formatDate(appointment.createdAt)}
+                  </p>
                 </div>
 
-                <div className="flex justify-between mt-4">
+                <div className="mt-4 flex justify-end">
                   <Button
-                    onClick={() => handleView(appointment)}
-                    variant="outline"
-                    className="text-blue-500 hover:text-blue-700 transition-all duration-200"
-                  >
-                    <Eye className="h-5 w-5" />
-                  </Button>
-                  <Button
-                    onClick={() => handleDelete(appointment.id)}
+                    onClick={() => handleDelete(appointment._id)} // ✅ Fixed here
                     variant="ghost"
-                    className="text-red-500 hover:text-red-700 transition-all duration-200"
+                    className="text-red-500 hover:text-red-700 hover:bg-red-50 transition-all duration-200"
                   >
                     <Trash2 className="h-5 w-5" />
                   </Button>

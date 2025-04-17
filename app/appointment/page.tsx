@@ -14,7 +14,7 @@ export default function BookingForm() {
     address: "",
     email: "",
     doctor: "",
-    service: "",
+    treatment: "",
     otherService: "",
     specificMessage: "",
   });
@@ -31,6 +31,7 @@ export default function BookingForm() {
     setMessage("");
 
     try {
+      // Sending form data to the backend API route
       await axios.post("/api/appointments/book", formData);
       setMessage("✅ Appointment booked successfully!");
       setFormData({
@@ -41,7 +42,7 @@ export default function BookingForm() {
         address: "",
         email: "",
         doctor: "",
-        service: "",
+        treatment: "",
         otherService: "",
         specificMessage: "",
       });
@@ -82,7 +83,7 @@ export default function BookingForm() {
               <option value="Dr. Zia (7 PM - 10 PM)">Dr. Zia (7 PM - 10 PM)</option>
             </select>
             
-            <select name="service" value={formData.service} onChange={handleChange} required className="p-2 border rounded text-black">
+            <select name="treatment" value={formData.treatment} onChange={handleChange} required className="p-2 border rounded text-black">
               <option value="">Select a Treatment</option>
               <option value="Teeth Cleaning">Teeth Cleaning</option>
               <option value="Tooth Extraction">Tooth Extraction</option>
@@ -96,7 +97,8 @@ export default function BookingForm() {
               <option value="Dental Crowns & Bridges">Dental Crowns & Bridges</option>
               <option value="Other">Other</option>
             </select>
-            {formData.service === "Other" && (
+
+            {formData.treatment === "Other" && (
               <input name="otherService" type="text" placeholder="Specify Other Treatment" value={formData.otherService} onChange={handleChange} className="p-2 border rounded text-black placeholder-gray-700" />
             )}
             
