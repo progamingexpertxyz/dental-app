@@ -18,9 +18,9 @@ export async function POST(req: Request) {
     const body = await req.json();
     console.log("📥 Received Data:", body);
 
-    const { name, number, age, email, doctor, service, otherService, specificMessage, gender, address } = body;
+    const { name, number, age, email, doctor, treatment, otherService, specificMessage, gender, address } = body;
 
-    if (!name || !number || !age || !email || !service || !gender || !address || !doctor) {
+    if (!name || !number || !age || !email || !treatment || !gender || !address || !doctor) {
       console.error("❌ Missing Fields");
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
     }
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
       age,
       email,
       doctor,
-      service,
+      treatment,
       otherService,
       specificMessage,
       gender,
